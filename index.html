@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barómetro de Satisfacción | La Movida de SST</title>
+    
+    <!-- Tipografía Oficial: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración del Sistema de Diseño (Tailwind Config) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            teal: '#007b85',
+                            dark: '#00205b',
+                            green: '#70ad47',
+                            yellow: '#ffb600'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card-base': '0 4px 20px -2px rgba(0, 0, 0, 0.03)',
+                        'card-hover': '0 12px 24px -4px rgba(0, 123, 133, 0.12)',
+                    },
+                    backgroundImage: {
+                        'magic-line': 'linear-gradient(to right, #00205b, #007b85, #70ad47)',
+                        'tech-grid': 'linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px)'
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '0.05' },
+                            '50%': { opacity: '0.1' },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 6s ease-in-out infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Chart.js para gráficos nativos interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome para íconos profesionales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* Fondo Tech Grid global */
+        .bg-tech-grid {
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-600 font-sans p-3 sm:p-6 md:p-8 selection:bg-brand-teal selection:text-white relative overflow-x-hidden min-h-screen">
+
+    <!-- Fondos y Luces Ambientales (Brand Colors Glow) -->
+    <div class="fixed inset-0 z-0 bg-tech-grid bg-tech-grid pointer-events-none"></div>
+    <div class="fixed top-[-10%] left-[-5%] w-[400px] h-[400px] bg-brand-teal rounded-full blur-[120px] animate-pulse-glow z-0 pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-brand-dark rounded-full blur-[120px] animate-pulse-glow z-0 pointer-events-none" style="animation-delay: 2s;"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+        <!-- Cabecera Responsiva Modificada -->
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-5">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Logotipo Oficial con efecto flotante -->
+                <div class="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-full bg-white shadow-card-base p-1 border border-slate-100 animate-float">
+                    <img src="https://assets.poap.xyz/cec12a20-fefb-4199-9cc0-b1ece87fe44d.png" alt="Logo La Movida" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-dark tracking-tight">Barómetro de Utilidad y Satisfacción</h1>
+                    <p class="text-xs sm:text-sm md:text-base text-slate-500 mt-1 flex flex-wrap items-center gap-2">
+                        Impacto del ecosistema "La Movida de SST" en el ejercicio profesional
+                        <span id="statusBadge" class="flex items-center text-[10px] sm:text-xs font-medium bg-slate-200 text-slate-700 px-3 py-1 rounded-full transition-all">
+                            <i class="fas fa-spinner fa-spin mr-1.5"></i> Conectando...
+                        </span>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Grupo de Botones de Acción -->
+            <div class="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-3">
+                <!-- NUEVO BOTÓN: Enlace a la Encuesta -->
+                <!-- NOTA: Reemplaza 'URL_DE_TU_ENCUESTA_AQUI' con el enlace real de tu Google Forms, Typeform, etc. -->
+                <a href="URL_DE_TU_ENCUESTA_AQUI" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-teal text-white px-6 py-2.5 rounded-[24px] shadow-card-base hover:-translate-y-1 hover:shadow-card-hover hover:bg-brand-dark transition-all duration-300 text-sm font-bold group">
+                    <i class="fas fa-clipboard-check group-hover:scale-110 transition-transform text-brand-yellow"></i> Evaluar Ecosistema
+                </a>
+
+                <!-- Botón de Sincronizar Existente (Secundario) -->
+                <button onclick="fetchData()" id="refreshBtn" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white border border-slate-200 text-brand-dark px-5 py-2.5 rounded-[24px] shadow-sm hover:-translate-y-1 hover:shadow-card-hover hover:border-brand-teal transition-all duration-300 text-sm font-bold group">
+                    <i class="fas fa-sync-alt group-hover:text-brand-teal transition-colors"></i> Sincronizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Alerta de Sincronización Inicial -->
+        <div id="loadingOverlay" class="bg-white/90 backdrop-blur-[16px] border border-slate-200/60 p-8 sm:p-12 rounded-[24px] shadow-card-base text-center my-6 transition-opacity duration-300">
+            <div class="text-5xl text-brand-teal mb-4"><i class="fas fa-shield-alt fa-bounce"></i></div>
+            <h3 class="text-lg sm:text-xl font-bold text-brand-dark" id="loadingText">Estableciendo túnel de datos seguro...</h3>
+            <p class="text-sm text-slate-400 mt-2 font-light">Consultando resultados a través de Google Apps Script.</p>
+        </div>
+
+        <!-- Contenedor Principal del Dashboard -->
+        <div id="dashboardContent" class="hidden opacity-0 transition-opacity duration-500 space-y-6">
+            
+            <!-- Bloque de Tarjetas KPIs (Glassmorphism Premium) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- KPI 1: Teal -->
+                <div class="group bg-white/90 backdrop-blur-[16px] p-5 sm:p-6 rounded-[24px] shadow-card-base border border-slate-200/60 flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shrink-0 bg-brand-teal/10 text-brand-teal text-xl sm:text-2xl transition-transform group-hover:scale-110"><i class="fas fa-users"></i></div>
+                    <div><p class="text-xs sm:text-sm font-medium text-slate-500 mb-0.5">Muestra Total</p><h4 id="kpi-total" class="text-2xl sm:text-3xl font-extrabold text-brand-dark">--</h4></div>
+                </div>
+                
+                <!-- KPI 2: Yellow -->
+                <div class="group bg-white/90 backdrop-blur-[16px] p-5 sm:p-6 rounded-[24px] shadow-card-base border border-slate-200/60 flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shrink-0 bg-brand-yellow/15 text-brand-yellow text-xl sm:text-2xl transition-transform group-hover:scale-110"><i class="fas fa-star"></i></div>
+                    <div><p class="text-xs sm:text-sm font-medium text-slate-500 mb-0.5">Calificación Promedio</p><h4 id="kpi-avg" class="text-2xl sm:text-3xl font-extrabold text-brand-dark">--</h4></div>
+                </div>
+                
+                <!-- KPI 3: Green -->
+                <div class="group bg-white/90 backdrop-blur-[16px] p-5 sm:p-6 rounded-[24px] shadow-card-base border border-slate-200/60 flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute -right-4 -top-4 text-brand-green/10 text-8xl transition-transform group-hover:rotate-12"><i class="fas fa-chart-line"></i></div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shrink-0 bg-brand-green/15 text-brand-green text-xl sm:text-2xl relative z-10 transition-transform group-hover:scale-110"><i class="fas fa-medal"></i></div>
+                    <div class="relative z-10"><p class="text-xs sm:text-sm font-medium text-slate-500 mb-0.5">Score NPS</p><h4 id="kpi-nps" class="text-2xl sm:text-3xl font-extrabold text-brand-dark">--</h4></div>
+                </div>
+                
+                <!-- KPI 4: Dark Blue -->
+                <div class="group bg-white/90 backdrop-blur-[16px] p-5 sm:p-6 rounded-[24px] shadow-card-base border border-slate-200/60 flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shrink-0 bg-brand-dark/10 text-brand-dark text-xl sm:text-2xl transition-transform group-hover:scale-110"><i class="fas fa-map-marked-alt"></i></div>
+                    <div><p class="text-xs sm:text-sm font-medium text-slate-500 mb-0.5">Estados Alcanzados</p><h4 id="kpi-states" class="text-2xl sm:text-3xl font-extrabold text-brand-dark">--</h4></div>
+                </div>
+            </div>
+
+            <!-- Panel de Insights Generados por IA Paramétrica -->
+            <div class="bg-brand-dark relative overflow-hidden p-6 sm:p-8 rounded-[24px] shadow-card-hover">
+                <!-- Gradiente y patrón decorativo de fondo -->
+                <div class="absolute inset-0 bg-gradient-to-br from-brand-dark to-brand-teal opacity-90 z-0"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/3"></div>
+                
+                <div class="relative z-10">
+                    <h3 class="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2">
+                        <i class="fas fa-brain text-brand-yellow"></i> Análisis de IA (Filtro de Datos Seguro)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white/10 backdrop-blur-md p-5 rounded-[20px] border border-white/20 shadow-sm transition-all hover:bg-white/15">
+                            <h4 class="font-bold text-white mb-2 text-sm flex items-center gap-2"><i class="fas fa-heart text-brand-yellow"></i> Diagnóstico de Satisfacción</h4>
+                            <p id="ai-nps-text" class="text-sm text-slate-200 font-light leading-relaxed">Calculando diagnóstico con parámetros corporativos...</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-5 rounded-[20px] border border-white/20 shadow-sm transition-all hover:bg-white/15">
+                            <h4 class="font-bold text-white mb-2 text-sm flex items-center gap-2"><i class="fas fa-globe-americas text-brand-green"></i> Cobertura de la Inteligencia Colectiva</h4>
+                            <p id="ai-geo-text" class="text-sm text-slate-200 font-light leading-relaxed">Calculando alcance geográfico nacional...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Gráficos Adaptativos -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Barras Horizontales de Estados -->
+                <div class="lg:col-span-2 group bg-white/90 backdrop-blur-[16px] p-5 sm:p-6 rounded-[24px] shadow-card-base border border-slate-200/60 hover:-translate-y-2 hover:shadow-card-hover transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <h3 class="text-sm sm:text-lg font-bold text-brand-dark mb-4 flex items-center gap-2"><i class="fas fa-chart-bar text-brand-teal"></i> Participación por Entidad Federal</h3>
+                    <div class="relative h-[300px] sm:h-[420px] w-full">
+                        <canvas id="geoChart"></canvas>
+                    </div>
+                </div>
+                <!-- Distribución de Estrellas -->
+                <div class="group bg-white/90 backdrop-blur-[16px] p-5 sm:p-6 rounded-[24px] shadow-card-base border border-slate-200/60 flex flex-col hover:-translate-y-2 hover:shadow-card-hover transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <h3 class="text-sm sm:text-lg font-bold text-brand-dark mb-4 flex items-center gap-2"><i class="fas fa-chart-pie text-brand-yellow"></i> Niveles de Calificación</h3>
+                    <div class="relative flex-1 min-h-[250px] w-full flex justify-center items-center">
+                        <canvas id="ratingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Muro Dinámico de Testimonios -->
+            <div class="group bg-white/90 backdrop-blur-[16px] p-5 sm:p-8 rounded-[24px] shadow-card-base border border-slate-200/60 hover:-translate-y-2 hover:shadow-card-hover transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-magic-line opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <h3 class="text-sm sm:text-lg font-bold text-brand-dark mb-6 flex items-center gap-2"><i class="fas fa-comments text-brand-teal"></i> Últimas Respuestas del Ejercicio Profesional</h3>
+                <div id="testimonialsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                    <!-- Se inyecta dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL segura de Google Apps Script
+        const apiWebspaceUrl = "https://script.google.com/macros/s/AKfycbxr58ZO80LnsuKoxTst1lec9_27zYnK1z8X3bqG78qUrwyEG6sL97QVJvhaHuYY4a18/exec";
+        
+        let geoChartInstance = null;
+        let ratingChartInstance = null;
+        
+        // Colores de la Guía de Estilo para JS
+        const brandColors = {
+            teal: '#007b85',
+            dark: '#00205b',
+            green: '#70ad47',
+            yellow: '#ffb600',
+            slate500: '#64748b',
+            slate200: '#e2e8f0'
+        };
+
+        // Tipografía para ChartJS
+        Chart.defaults.font.family = "'Outfit', sans-serif";
+        Chart.defaults.color = brandColors.slate500;
+
+        async function fetchData() {
+            const errorOverlay = document.getElementById('loadingOverlay');
+            const contentDiv = document.getElementById('dashboardContent');
+            const badge = document.getElementById('statusBadge');
+            const icon = document.querySelector('#refreshBtn i');
+            
+            if(icon) icon.classList.add('fa-spin');
+            
+            try {
+                const response = await fetch(apiWebspaceUrl);
+                if (!response.ok) throw new Error('Servidor de Google ocupado. Reintentando...');
+                
+                const data = await response.json();
+                if(data.error) throw new Error(data.error);
+
+                // Cálculos NPS y Estadísticas
+                const total = data.total;
+                const avg = total > 0 ? (data.sumRatings / total).toFixed(2) : '0';
+                
+                const pctPromoters = total > 0 ? (data.promoters / total) * 100 : 0;
+                const detractorsCount = (data.ratingCounts['3 ★'] || 0) + (data.ratingCounts['2 ★'] || 0) + (data.ratingCounts['1 ★'] || 0);
+                const pctDetractors = total > 0 ? (detractorsCount / total) * 100 : 0;
+                const npsScore = Math.round(pctPromoters - pctDetractors);
+
+                const sortedGeo = Object.entries(data.geoCounts).sort(([,a], [,b]) => b - a);
+                const totalStates = Object.keys(data.geoCounts).length;
+
+                // Actualizar Frontend
+                document.getElementById('kpi-total').innerText = total;
+                document.getElementById('kpi-avg').innerText = avg + '/5';
+                document.getElementById('kpi-nps').innerText = npsScore > 0 ? `+${npsScore}` : npsScore;
+                document.getElementById('kpi-states').innerText = totalStates;
+
+                // Redacción Dinámica IA
+                const npsText = document.getElementById('ai-nps-text');
+                if(npsScore > 75) {
+                    npsText.innerHTML = `Nivel de lealtad en zona de <strong class="text-brand-yellow">"Excelencia Absoluta" (+${npsScore})</strong>. Los profesionales perciben el ecosistema administrado por La Movida de SST como un pilar corporativo fundamental.`;
+                } else if(npsScore > 40) {
+                    npsText.innerHTML = `Score favorable de <strong class="text-brand-yellow">+${npsScore}</strong>. Indica una base de promotores robusta, con oportunidades de fidelización institucional.`;
+                } else {
+                    npsText.innerHTML = `Métrica NPS en evaluación (${npsScore}). Se sugiere reevaluar los canales de difusión de La Movida de SST.`;
+                }
+
+                const geoText = document.getElementById('ai-geo-text');
+                geoText.innerHTML = `La red tiene cobertura en <strong class="text-brand-green">${totalStates} estados</strong>. Las regiones de <strong class="text-white">${sortedGeo[0]?.[0] || 'N/A'}</strong> y <strong class="text-white">${sortedGeo[1]?.[0] || 'N/A'}</strong> concentran la mayor participación.`;
+
+                // Testimonios (Glassmorphism sutil)
+                const testContainer = document.getElementById('testimonialsContainer');
+                testContainer.innerHTML = '';
+                
+                if(data.testimonials.length === 0) {
+                    testContainer.innerHTML = `<p class="text-sm text-slate-400 text-center col-span-2 py-4 font-light">No hay respuestas escritas registradas.</p>`;
+                } else {
+                    data.testimonials.forEach(text => {
+                        testContainer.innerHTML += `
+                            <div class="p-4 sm:p-5 bg-slate-50/50 backdrop-blur-sm rounded-[20px] border border-slate-200/50 text-slate-600 text-sm font-light relative hover:border-brand-teal/30 transition-colors">
+                                <span class="absolute top-2 left-3 text-4xl text-brand-teal/20 font-serif leading-none">"</span>
+                                <p class="relative z-10 pl-5 text-justify leading-relaxed">${text}</p>
+                            </div>
+                        `;
+                    });
+                }
+
+                // Gráfico Geográfico (Uso de Brand Teal)
+                const geoCtx = document.getElementById('geoChart').getContext('2d');
+                if(geoChartInstance) geoChartInstance.destroy();
+                geoChartInstance = new Chart(geoCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: sortedGeo.map(d => d[0]),
+                        datasets: [{ 
+                            label: 'Profesionales', 
+                            data: sortedGeo.map(d => d[1]), 
+                            backgroundColor: brandColors.teal, 
+                            borderRadius: 6,
+                            hoverBackgroundColor: brandColors.dark
+                        }]
+                    },
+                    options: { 
+                        responsive: true, maintainAspectRatio: false, indexAxis: 'y', 
+                        plugins: { legend: { display: false } },
+                        scales: { 
+                            x: { ticks: { stepSize: 1, font: {family: 'Outfit', weight: '300'} }, grid: { color: brandColors.slate200, drawBorder: false } }, 
+                            y: { ticks: { font: { family: 'Outfit', weight: '500', size: window.innerWidth < 640 ? 10 : 12 }, color: brandColors.dark }, grid: { display: false } } 
+                        }
+                    }
+                });
+
+                // Gráfico de Dona (Colores Oficiales)
+                const ratCtx = document.getElementById('ratingChart').getContext('2d');
+                if(ratingChartInstance) ratingChartInstance.destroy();
+                ratingChartInstance = new Chart(ratCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(data.ratingCounts),
+                        datasets: [{ 
+                            data: Object.values(data.ratingCounts), 
+                            backgroundColor: [brandColors.green, brandColors.teal, brandColors.yellow, '#f87171', brandColors.slate500], 
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: { 
+                        responsive: true, maintainAspectRatio: false, cutout: '75%',
+                        plugins: { 
+                            legend: { 
+                                position: 'bottom', 
+                                labels: { boxWidth: 12, padding: 20, font: { family: 'Outfit', weight: '400', size: window.innerWidth < 640 ? 11 : 13 } } 
+                            } 
+                        }
+                    }
+                });
+
+                // Activación de interfaz
+                badge.className = "flex items-center text-[10px] sm:text-xs font-bold bg-brand-green/10 text-brand-green px-3 py-1 rounded-full animate-fade-in border border-brand-green/20";
+                badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-brand-green mr-2 animate-pulse"></span> Sistema En Línea';
+                
+                errorOverlay.classList.add('hidden');
+                contentDiv.classList.remove('hidden');
+                setTimeout(() => contentDiv.classList.remove('opacity-0'), 50);
+
+            } catch (error) {
+                errorOverlay.className = "bg-white/90 backdrop-blur-[16px] border border-red-200/60 p-8 sm:p-12 rounded-[24px] shadow-card-base text-center my-6 text-red-700 animate-shake";
+                errorOverlay.innerHTML = `<h3 class="font-bold text-lg sm:text-xl"><i class="fas fa-triangle-exclamation"></i> Conexión Restringida</h3><p class="text-sm mt-2 font-light text-slate-500">${error.message}. Verifica los permisos del backend corporativo.</p>`;
+            } finally {
+                if(icon) icon.classList.remove('fa-spin');
+            }
+        }
+
+        window.onload = () => {
+            fetchData();
+            setInterval(fetchData, 15000); // 15s Polling
+            
+            window.addEventListener('resize', () => {
+                if(geoChartInstance) geoChartInstance.resize();
+                if(ratingChartInstance) ratingChartInstance.resize();
+            });
+        };
+    </script>
+</body>
+</html>
